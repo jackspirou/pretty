@@ -3,7 +3,8 @@ A CLI tool that automatically identifies and formats JSON or XML.
 It is written in Go, is simple, and has no third party dependencies.
 
 ## Install
-`go get -u github.com/jackspirou/pretty`
+### go get
+`$ go get -u github.com/jackspirou/pretty`
 
 ## Usage
 
