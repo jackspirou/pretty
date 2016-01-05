@@ -56,10 +56,11 @@ func pretty(r io.Reader, w io.Writer) error {
 
 	switch format {
 	case jsonFormat:
-		var out *bytes.Buffer
-		if err := json.Indent(out, b, "", "\t"); err != nil {
+		var out bytes.Buffer
+		if err := json.Indent(&out, b, "", "\t"); err != nil {
 			return err
 		}
+
 		if _, err := out.WriteTo(w); err != nil {
 			return err
 		}
@@ -73,12 +74,14 @@ func pretty(r io.Reader, w io.Writer) error {
 			if err == io.EOF {
 				break
 			}
+
 			if tok, ok := t.(xml.CharData); ok {
 				r, _ := utf8.DecodeRune(tok)
 				if blank(r) {
 					continue
 				}
 			}
+
 			e.EncodeToken(t)
 		}
 		return e.Flush()
