@@ -13,11 +13,16 @@ $ cat messy.json
 {"type":"text","$t":"day: Monday, menu: Paninis, baguettes, spaghetti / Chicken curry"}
 ```
 
-Lets make it pretty:
+Let's make it pretty:
 ```bash
 $ cat messy.json | pretty
 {
 	"type": "text",
 	"$t": "day: Monday, menu: Paninis, baguettes, spaghetti / Chicken curry"
 }
+```
+
+If you wanted to do something other than print the pretty result to the terminal, pipe it to somewhere:
+```bash
+$ cat messy.json | pretty | somewhere
 ```
