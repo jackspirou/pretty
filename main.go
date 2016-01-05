@@ -31,7 +31,6 @@ func pretty(r io.Reader, w io.Writer) error {
 
 	var format uint
 	for {
-
 		ch, _, err := buf.ReadRune()
 		if err != nil {
 			return err
@@ -68,6 +67,7 @@ func pretty(r io.Reader, w io.Writer) error {
 		d := xml.NewDecoder(bytes.NewReader(b))
 		e := xml.NewEncoder(w)
 		e.Indent("", "\t")
+
 		for {
 			t, err := d.Token()
 			if err == io.EOF {
@@ -75,7 +75,7 @@ func pretty(r io.Reader, w io.Writer) error {
 			}
 			if tok, ok := t.(xml.CharData); ok {
 				r, _ := utf8.DecodeRune(tok)
-				if whitespace(r) {
+				if blank(r) {
 					continue
 				}
 			}
@@ -103,6 +103,6 @@ func formats(ch rune) (uint, bool) {
 	}
 }
 
-func whitespace(ch rune) bool {
+func blank(ch rune) bool {
 	return ch == ' ' || ch == '\n' || ch == '\t'
 }
