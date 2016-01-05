@@ -64,6 +64,7 @@ func pretty(r io.Reader, w io.Writer) error {
 		if _, err := out.WriteTo(w); err != nil {
 			return err
 		}
+
 	case xmlFormat:
 		d := xml.NewDecoder(bytes.NewReader(b))
 		e := xml.NewEncoder(w)
@@ -84,10 +85,13 @@ func pretty(r io.Reader, w io.Writer) error {
 
 			e.EncodeToken(t)
 		}
+
 		return e.Flush()
+
 	default:
 		return errors.New("known format error, please file a bug")
 	}
+
 	return nil
 }
 
