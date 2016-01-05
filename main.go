@@ -49,13 +49,13 @@ func pretty(r io.Reader, w io.Writer) error {
 		}
 	}
 
-	b, err := ioutil.ReadAll(buf)
-	if err != nil {
-		return err
-	}
-
 	switch format {
 	case jsonFormat:
+		b, err := ioutil.ReadAll(buf)
+		if err != nil {
+			return err
+		}
+
 		var out bytes.Buffer
 		if err := json.Indent(&out, b, "", "\t"); err != nil {
 			return err
@@ -66,7 +66,7 @@ func pretty(r io.Reader, w io.Writer) error {
 		}
 
 	case xmlFormat:
-		d := xml.NewDecoder(bytes.NewReader(b))
+		d := xml.NewDecoder(buf)
 		e := xml.NewEncoder(w)
 		e.Indent("", "\t")
 

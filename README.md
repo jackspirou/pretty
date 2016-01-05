@@ -2,6 +2,9 @@
 A CLI tool that automatically identifies and formats JSON or XML.
 It is written in Go, is simple, and has no third party dependencies.
 
+- JSON formatting was tested against a 189.8 MB file, no crashing resulted.
+- XML formatting was tested against a 71.1 MB file, no crashing resulted.
+
 ## Install
 ### go get
 `$ go get -u github.com/jackspirou/pretty`
