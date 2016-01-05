@@ -78,7 +78,7 @@ func pretty(r io.Reader, w io.Writer) error {
 
 			if tok, ok := t.(xml.CharData); ok {
 				r, _ := utf8.DecodeRune(tok)
-				if blank(r) {
+				if whitespace(r) || endOfLine(r) {
 					continue
 				}
 			}
@@ -110,6 +110,6 @@ func formats(ch rune) (uint, bool) {
 	}
 }
 
-func blank(ch rune) bool {
-	return ch == ' ' || ch == '\n' || ch == '\t'
+func whitespace(ch rune) bool {
+	return ch == ' ' || ch == '\t'
 }
