@@ -7,6 +7,7 @@ import (
 	"errors"
 	"io"
 	"io/ioutil"
+	"log"
 	"os"
 )
 
@@ -17,7 +18,9 @@ const (
 )
 
 func main() {
-	pretty(os.Stdin, os.Stdout)
+	if _, err := pretty(os.Stdin, os.Stdout); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func pretty(r io.Reader, w io.Writer) (int64, error) {
@@ -26,10 +29,12 @@ func pretty(r io.Reader, w io.Writer) (int64, error) {
 
 	var format uint
 	for {
+
 		ch, _, err := buf.ReadRune()
 		if err != nil {
 			return 0, err
 		}
+
 		if f, ok := formats(ch); ok {
 			format = f
 			if err := buf.UnreadRune(); err != nil {
@@ -37,6 +42,7 @@ func pretty(r io.Reader, w io.Writer) (int64, error) {
 			}
 			break
 		}
+
 		if endOfLine(ch) {
 			return 0, errors.New("unable to recognize this format")
 		}
