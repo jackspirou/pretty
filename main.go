@@ -62,10 +62,6 @@ func pretty(r io.Reader, w io.Writer) (int64, error) {
 	return out.WriteTo(w)
 }
 
-func whitespace(ch rune) bool {
-	return ch == ' ' || ch == '\t'
-}
-
 func endOfLine(ch rune) bool {
 	return ch == '\n' || ch == '\r'
 }
