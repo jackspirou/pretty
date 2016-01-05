@@ -7,7 +7,6 @@ It is written in Go, is simple, and has no third party dependencies.
 `$ go get -u github.com/jackspirou/pretty`
 
 ## Usage
-
 Here is an example of a messy `.json` file:
 ```bash
 $ cat messy.json
