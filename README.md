@@ -1,4 +1,4 @@
-# pretty
+# pretty [![Go Report Card](http://goreportcard.com/badge/jackspirou/pretty)](http://goreportcard.com/report/jackspirou/pretty)
 A CLI tool that automatically identifies and formats JSON or XML.
 It is written in Go, is simple, and has no third party dependencies.
 
