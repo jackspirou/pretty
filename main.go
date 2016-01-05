@@ -4,11 +4,13 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/json"
+	"encoding/xml"
 	"errors"
 	"io"
 	"io/ioutil"
 	"log"
 	"os"
+	"unicode/utf8"
 )
 
 const (
@@ -18,12 +20,12 @@ const (
 )
 
 func main() {
-	if _, err := pretty(os.Stdin, os.Stdout); err != nil {
+	if err := pretty(os.Stdin, os.Stdout); err != nil {
 		log.Fatal(err)
 	}
 }
 
-func pretty(r io.Reader, w io.Writer) (int64, error) {
+func pretty(r io.Reader, w io.Writer) error {
 
 	buf := bufio.NewReaderSize(r, 4)
 
@@ -32,40 +34,58 @@ func pretty(r io.Reader, w io.Writer) (int64, error) {
 
 		ch, _, err := buf.ReadRune()
 		if err != nil {
-			return 0, err
+			return err
 		}
 
 		if f, ok := formats(ch); ok {
 			format = f
 			if err := buf.UnreadRune(); err != nil {
-				return 0, err
+				return err
 			}
 			break
 		}
 
 		if endOfLine(ch) {
-			return 0, errors.New("unable to recognize this format")
+			return errors.New("unable to recognize this format")
 		}
 	}
 
 	b, err := ioutil.ReadAll(buf)
 	if err != nil {
-		return 0, err
+		return err
 	}
 
-	var out bytes.Buffer
 	switch format {
 	case jsonFormat:
-		if err := json.Indent(&out, b, "", "\t"); err != nil {
-			return 0, err
+		var out *bytes.Buffer
+		if err := json.Indent(out, b, "", "\t"); err != nil {
+			return err
+		}
+		if _, err := out.WriteTo(w); err != nil {
+			return err
 		}
 	case xmlFormat:
-		return 0, errors.New("xml is not yet supported")
+		d := xml.NewDecoder(bytes.NewReader(b))
+		e := xml.NewEncoder(w)
+		e.Indent("", "\t")
+		for {
+			t, err := d.Token()
+			if err == io.EOF {
+				break
+			}
+			if tok, ok := t.(xml.CharData); ok {
+				r, _ := utf8.DecodeRune(tok)
+				if whitespace(r) {
+					continue
+				}
+			}
+			e.EncodeToken(t)
+		}
+		return e.Flush()
 	default:
-		return 0, errors.New("known format error, please file a bug")
+		return errors.New("known format error, please file a bug")
 	}
-
-	return out.WriteTo(w)
+	return nil
 }
 
 func endOfLine(ch rune) bool {
@@ -81,4 +101,8 @@ func formats(ch rune) (uint, bool) {
 	default:
 		return unknownFormat, false
 	}
+}
+
+func whitespace(ch rune) bool {
+	return ch == ' ' || ch == '\n' || ch == '\t'
 }

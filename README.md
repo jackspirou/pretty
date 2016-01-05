@@ -6,7 +6,7 @@ It is written in Go, is simple, and has no third party dependencies.
 ### go get
 `$ go get -u github.com/jackspirou/pretty`
 
-## Usage
+## JSON
 Here is an example of a messy `.json` file:
 ```bash
 $ cat messy.json
@@ -25,4 +25,28 @@ $ cat messy.json | pretty
 If you wanted to do something other than print the pretty result to the terminal, pipe it to somewhere:
 ```bash
 $ cat messy.json | pretty | somewhere
+```
+
+## XML
+Here is an example of a messy `.xml` file:
+```bash
+$ cat messy.xml
+<config><diagnostics><path>C:\temp</path>
+<proxy usedefault="true"/></diagnostics></config>
+```
+
+Let's make it pretty:
+```bash
+$ cat messy.xml | pretty
+<config>
+	<diagnostics>
+		<path>C:\temp</path>
+		<proxy usedefault="true"></proxy>
+	</diagnostics>
+</config>%
+```
+
+If you wanted to do something other than print the pretty result to the terminal, pipe it to somewhere:
+```bash
+$ cat messy.xml | pretty | somewhere
 ```
