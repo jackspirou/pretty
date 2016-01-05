@@ -1,7 +1,6 @@
 # pretty
 `pretty` is a CLI tool that automatically identifies and formats JSON or XML.
-
-It is written in Go, simple, and has no third party dependencies.
+It is written in Go, is simple, and has no third party dependencies.
 
 ## Install
 `go get -u github.com/jackspirou/pretty`
