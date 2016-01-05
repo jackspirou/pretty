@@ -1,6 +1,6 @@
 # pretty [![Go Report Card](http://goreportcard.com/badge/jackspirou/pretty)](http://goreportcard.com/report/jackspirou/pretty)
 A CLI tool that automatically identifies and formats JSON or XML.
-It is written in Go, is simple, and has no third party dependencies.
+It is written in Go, is simple, and it has no third party dependencies.
 
 - JSON formatting was tested against a 189.8 MB file, no crashing resulted.
 - XML formatting was tested against a 71.1 MB file, no crashing resulted.
