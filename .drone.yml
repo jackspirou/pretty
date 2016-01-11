@@ -1,0 +1,21 @@
+clone:
+  path: github.com/jackspirou/pretty
+
+build:
+  image: golang:1.5.2
+  environment:
+    - GO15VENDOREXPERIMENT=1
+    - GOOS=linux
+    - GOARCH=amd64
+    - CGO_ENABLED=0
+  commands:
+    - make build
+    - make release
+
+publish:
+  github_release:
+    api_key: $$GITHUB_TOKEN
+    files:
+      - tfs_*.tar.gz
+    when:
+      event: tag
