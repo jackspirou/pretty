@@ -9,6 +9,9 @@ It is written in Go, is simple, and it has no third party dependencies.
 ### go get
 `$ go get -u github.com/jackspirou/pretty`
 
+### releases
+You can download a prebuilt binary [here](https://github.com/jackspirou/pretty/releases).
+
 ## JSON
 Here is an example of a messy `.json` file:
 ```bash
